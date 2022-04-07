@@ -54,7 +54,9 @@ const App = () => {
         });
     };
 
-    translator();
+    if (textToTranslate) {
+      translator();
+    }
 
     return () => clearTimeout(timeOutId);
   }, [query, textToTranslate, translateFrom.code, translateTo.code]);
