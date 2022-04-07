@@ -31,33 +31,33 @@ const App = () => {
       setTextToTransate(query);
     }, 1000);
 
+    const translator = async () => {
+      const dataTranslate = {
+        q: textToTranslate,
+        source: translateFrom.code,
+        target: translateTo.code,
+        format: "text",
+      };
+
+      const config = {
+        headers: { "Content-Type": "application/json" },
+      };
+
+      await axios
+        .post("https://libretranslate.de/translate", dataTranslate, config)
+        .then((res) => {
+          setTranslateResult(res.data);
+          return res.data;
+        })
+        .catch((error) => {
+          return error;
+        });
+    };
+
     translator();
 
     return () => clearTimeout(timeOutId);
-  }, [query]);
-
-  const dataTranslate = {
-    q: textToTranslate,
-    source: translateFrom.code,
-    target: translateTo.code,
-    format: "text",
-  };
-
-  const config = {
-    headers: { "Content-Type": "application/json" },
-  };
-
-  async function translator() {
-    await axios
-      .post("https://libretranslate.de/translate", dataTranslate, config)
-      .then((res) => {
-        setTranslateResult(res.data);
-        return res.data;
-      })
-      .catch((error) => {
-        return error;
-      });
-  }
+  }, [query, textToTranslate, translateFrom.code, translateTo.code]);
 
   return (
     <div className="App bg-light h-[100vh]">
@@ -159,10 +159,7 @@ const App = () => {
             onChange={(event) => setQuery(event.target.value)}
           ></textarea>
 
-          <button
-            className="absolute bottom-5 left-5 flex items-center justify-center bg-blue w-12 h-12 shadow-md shadow-blue/50 rounded-full"
-            onClick={translator}
-          >
+          <button className="absolute bottom-5 left-5 flex items-center justify-center bg-blue w-12 h-12 shadow-md shadow-blue/50 rounded-full">
             <img src={Micro} alt="microphone-icon" className="w-7" />
           </button>
           <div className="action-btn flex items-center absolute bottom-5 right-5">
