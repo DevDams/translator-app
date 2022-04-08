@@ -18,6 +18,13 @@ const App = () => {
     return classes.filter(Boolean).join(" ");
   }
 
+  function updateFunc(param) {
+    setLoader(true);
+    setQuery(param);
+    setTextToTransate("");
+  }
+
+  // state
   const [translateFrom, setTranslateFrom] = useState(languages[0]);
   const [translateTo, setTranslateTo] = useState(languages[1]);
 
@@ -26,14 +33,18 @@ const App = () => {
 
   const [translateResult, setTranslateResult] = useState("");
 
+  const [loader, setLoader] = useState(false);
+
+  // Use effect
   useEffect(() => {
     const timeOutId = setTimeout(() => {
       setTextToTransate(query);
-    }, 1000);
+      setLoader(false);
+    }, 2000);
 
-    const translator = async () => {
+    const translator = async (text) => {
       const dataTranslate = {
-        q: textToTranslate,
+        q: text,
         source: translateFrom.code,
         target: translateTo.code,
         format: "text",
@@ -54,12 +65,14 @@ const App = () => {
         });
     };
 
-    if (textToTranslate) {
-      translator();
+    if (!loader && textToTranslate) {
+      translator(textToTranslate);
+    } else {
+      setTranslateResult("");
     }
 
     return () => clearTimeout(timeOutId);
-  }, [query, textToTranslate, translateFrom.code, translateTo.code]);
+  }, [query, loader, textToTranslate, translateFrom.code, translateTo.code]);
 
   return (
     <div className="App bg-light h-[100vh]">
@@ -158,18 +171,18 @@ const App = () => {
           <textarea
             placeholder="Entrez le texte ici..."
             className="w-full py-4 border-none outline-none h-64"
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => updateFunc(event.target.value)}
           ></textarea>
 
-          <button className="absolute bottom-5 left-5 flex items-center justify-center bg-blue w-12 h-12 shadow-md shadow-blue/50 rounded-full">
-            <img src={Micro} alt="microphone-icon" className="w-7" />
+          <button className="absolute bottom-5 left-5 flex items-center justify-center bg-blue w-12 h-12 shadow-sm shadow-blue/50 rounded-full">
+            <img src={Micro} alt="microphone-icon" className="w-5" />
           </button>
           <div className="action-btn flex items-center absolute bottom-5 right-5">
             <button className="flex items-center justify-center w-9 h-9 mx-1 rounded-md">
-              <img src={Volume} alt="volume-icon" className="w-7" />
+              <img src={Volume} alt="volume-icon" className="w-6" />
             </button>
             <button className="flex items-center justify-center w-9 h-9 mx-1 rounded-md">
-              <img src={Clipboard} alt="clipboard-icon" className="w-7" />
+              <img src={Clipboard} alt="clipboard-icon" className="w-6" />
             </button>
           </div>
         </div>
@@ -268,14 +281,18 @@ const App = () => {
           </Listbox>
 
           <div className="w-full py-4 h-64">
-            {translateResult.translatedText}
+            {!loader ? (
+              translateResult.translatedText
+            ) : (
+              <div className="circle-9"></div>
+            )}
           </div>
           <div className="action-btn flex items-center absolute bottom-5 right-5">
             <button className="flex items-center justify-center w-9 h-9 mx-1 rounded-md">
-              <img src={Volume} alt="volume-icon" className="w-7" />
+              <img src={Volume} alt="volume-icon" className="w-6" />
             </button>
             <button className="flex items-center justify-center w-9 h-9 mx-1 rounded-md">
-              <img src={Clipboard} alt="clipboard-icon" className="w-7" />
+              <img src={Clipboard} alt="clipboard-icon" className="w-6" />
             </button>
           </div>
         </div>

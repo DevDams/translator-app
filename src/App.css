@@ -1,3 +1,38 @@
 textarea {
   resize: none;
 }
+
+.circle-9 {
+  width: 50px;
+  height: 25px;
+  --g1: radial-gradient(
+    farthest-side,
+    #0000 calc(95% - 3px),
+    rgb(49, 49, 49) calc(100% - 3px) 98%,
+    #0000 101%
+  );
+  background: var(--g1), var(--g1), var(--g1);
+  background-size: 12px 12px;
+  background-repeat: no-repeat;
+  animation: c9 1s infinite alternate;
+}
+@keyframes c9 {
+  0% {
+    background-position: 0 50%, 50% 50%, 100% 50%;
+  }
+  20% {
+    background-position: 0 0, 50% 50%, 100% 50%;
+  }
+  40% {
+    background-position: 0 100%, 50% 0, 100% 50%;
+  }
+  60% {
+    background-position: 0 50%, 50% 100%, 100% 0;
+  }
+  80% {
+    background-position: 0 50%, 50% 50%, 100% 100%;
+  }
+  100% {
+    background-position: 0 50%, 50% 50%, 100% 50%;
+  }
+}
