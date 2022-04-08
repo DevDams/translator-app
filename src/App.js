@@ -177,14 +177,6 @@ const App = () => {
           <button className="absolute bottom-5 left-5 flex items-center justify-center bg-blue w-12 h-12 shadow-sm shadow-blue/50 rounded-full">
             <img src={Micro} alt="microphone-icon" className="w-5" />
           </button>
-          <div className="action-btn flex items-center absolute bottom-5 right-5">
-            <button className="flex items-center justify-center w-9 h-9 mx-1 rounded-md">
-              <img src={Volume} alt="volume-icon" className="w-6" />
-            </button>
-            <button className="flex items-center justify-center w-9 h-9 mx-1 rounded-md">
-              <img src={Clipboard} alt="clipboard-icon" className="w-6" />
-            </button>
-          </div>
         </div>
 
         <button className="bg-orange flex items-center justify-center mx-2 w-12 h-12 rounded-xl shadow-md shadow-orange/50">
